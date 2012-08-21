@@ -5,7 +5,6 @@ set cpo&vim
 imap <silent> <Plug>IMAP_JumpBack =IMAP_Jumpfunc('b', 0)
 imap <silent> <Plug>IMAP_JumpForward =IMAP_Jumpfunc('', 0)
 imap <C-BS> 
-map! <S-Insert> <MiddleMouse>
 vnoremap  :Hexmode
 nnoremap  :Hexmode
 vmap <NL> <Plug>IMAP_JumpForward
@@ -66,7 +65,6 @@ map <F5> :make:copej/\v(error:|undefined)
 map <F4> :copej/\v(error #\d+:)
 nnoremap <F12> :cs add code/cscope.out code/
 nnoremap <F2> :set invpaste paste?
-map <S-Insert> <MiddleMouse>
 inoremap  :Hexmode
 imap <NL> <Plug>IMAP_JumpForward
 inoremap \fn =expand("%:h") ."/" . expand("%:t")
@@ -92,7 +90,6 @@ set hlsearch
 set ignorecase
 set incsearch
 set nomodeline
-set mouse=a
 set pastetoggle=<F2>
 set printoptions=paper:letter
 set ruler
@@ -106,37 +103,35 @@ set spelllang=en_us
 set statusline=%f\ -\ %{fugitive#statusline()}
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
 set tabstop=3
-set termencoding=utf-8
 set title
 set visualbell
-set window=57
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/projects/systemc/Codigo/proyecto_verificacion
+cd ~/projects/systemc/verificacion_fifo
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +40 fifo_data_monitor.hpp
-badd +10 fifo_data_monitor.cpp
-badd +27 scoreboard.hpp
-badd +80 scoreboard.cpp
-badd +1 verification_defs.hpp
-badd +1 scoreboard.c
-badd +1 scoreboard.h
-badd +1 fifo_data_monitor.c
-badd +1 fifo_data_monitor.h
-badd +1 verification_defs.h
-badd +16 test_bench.cpp
-badd +199 verif_elements.cpp
-badd +0 verif_elements.h
-args fifo_data_monitor.hpp
-edit scoreboard.hpp
+badd +22 Makefile
+badd +12 Makefile.config
+badd +2 fifo_data_monitor.cpp
+badd +21 fifo_data_monitor.hpp
+badd +9 test_bench.cpp
+badd +3 verif_elements.h
+badd +1 verif_elements.cpp
+badd +40 verification_defs.hpp
+args Makefile
+edit Makefile
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 1wincmd h
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+wincmd w
 wincmd _ | wincmd |
 split
 1wincmd k
@@ -147,37 +142,29 @@ vsplit
 2wincmd h
 wincmd w
 wincmd w
-wincmd w
 wincmd _ | wincmd |
-vsplit
-wincmd _ | wincmd |
-vsplit
-wincmd _ | wincmd |
-vsplit
-3wincmd h
-wincmd w
-wincmd w
+split
+1wincmd k
 wincmd w
 wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe '1resize ' . ((&lines * 28 + 29) / 58)
-exe 'vert 1resize ' . ((&columns * 54 + 102) / 205)
-exe '2resize ' . ((&lines * 28 + 29) / 58)
-exe 'vert 2resize ' . ((&columns * 54 + 102) / 205)
-exe '3resize ' . ((&lines * 28 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 54 + 102) / 205)
-exe '4resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 4resize ' . ((&columns * 40 + 102) / 205)
-exe '5resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 5resize ' . ((&columns * 40 + 102) / 205)
-exe '6resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 6resize ' . ((&columns * 41 + 102) / 205)
-exe '7resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 7resize ' . ((&columns * 40 + 102) / 205)
-exe 'vert 8resize ' . ((&columns * 40 + 102) / 205)
+exe '1resize ' . ((&lines * 38 + 39) / 78)
+exe 'vert 1resize ' . ((&columns * 69 + 139) / 279)
+exe '2resize ' . ((&lines * 37 + 39) / 78)
+exe 'vert 2resize ' . ((&columns * 69 + 139) / 279)
+exe '3resize ' . ((&lines * 65 + 39) / 78)
+exe 'vert 3resize ' . ((&columns * 69 + 139) / 279)
+exe '4resize ' . ((&lines * 65 + 39) / 78)
+exe 'vert 4resize ' . ((&columns * 69 + 139) / 279)
+exe '5resize ' . ((&lines * 32 + 39) / 78)
+exe 'vert 5resize ' . ((&columns * 69 + 139) / 279)
+exe '6resize ' . ((&lines * 32 + 39) / 78)
+exe 'vert 6resize ' . ((&columns * 69 + 139) / 279)
+exe '7resize ' . ((&lines * 10 + 39) / 78)
+exe 'vert 7resize ' . ((&columns * 209 + 139) / 279)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -192,8 +179,8 @@ setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=/*%s*/
+setlocal comments=sO:#\ -,mO:#\ \ ,b:#
+setlocal commentstring=#\ %s
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -208,9 +195,9 @@ setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
-setlocal expandtab
-if &filetype != 'cpp'
-setlocal filetype=cpp
+setlocal noexpandtab
+if &filetype != 'make'
+setlocal filetype=make
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -226,9 +213,9 @@ setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
-setlocal iminsert=0
+setlocal iminsert=2
 setlocal imsearch=2
-setlocal include=
+setlocal include=^\\s*include
 setlocal includeexpr=
 setlocal indentexpr=
 setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
@@ -246,7 +233,7 @@ setlocal nrformats=octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=ccomplete#Complete
+setlocal omnifunc=
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -268,11 +255,11 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'cpp'
-setlocal syntax=cpp
+if &syntax != 'make'
+setlocal syntax=make
 endif
 setlocal tabstop=3
-setlocal tags=
+setlocal tags=~/projects/systemc/verificacion_fifo/.git/make.tags,~/projects/systemc/verificacion_fifo/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
@@ -281,15 +268,16 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 33 - ((21 * winheight(0) + 14) / 28)
+let s:l = 37 - ((34 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-33
+37
 normal! 0
+lcd ~/projects/systemc/verificacion_fifo
 wincmd w
 argglobal
-edit scoreboard.cpp
+edit ~/projects/systemc/verificacion_fifo/Makefile.config
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -303,8 +291,8 @@ setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=/*%s*/
+setlocal comments=sO:#\ -,mO:#\ \ ,b:#
+setlocal commentstring=#\ %s
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -319,9 +307,9 @@ setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
-setlocal expandtab
-if &filetype != 'c'
-setlocal filetype=c
+setlocal noexpandtab
+if &filetype != 'make'
+setlocal filetype=make
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -337,9 +325,9 @@ setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
-setlocal iminsert=0
+setlocal iminsert=2
 setlocal imsearch=2
-setlocal include=
+setlocal include=^\\s*include
 setlocal includeexpr=
 setlocal indentexpr=
 setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
@@ -357,7 +345,7 @@ setlocal nrformats=octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=ccomplete#Complete
+setlocal omnifunc=
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -379,11 +367,11 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'c'
-setlocal syntax=c
+if &syntax != 'make'
+setlocal syntax=make
 endif
 setlocal tabstop=3
-setlocal tags=
+setlocal tags=~/projects/systemc/verificacion_fifo/.git/make.tags,~/projects/systemc/verificacion_fifo/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
@@ -392,16 +380,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 21 - ((20 * winheight(0) + 14) / 28)
+let s:l = 4 - ((3 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
-normal! 030l
-lcd ~/projects/systemc/Codigo/proyecto_verificacion
+4
+normal! 039l
 wincmd w
 argglobal
-edit ~/projects/systemc/Codigo/proyecto_verificacion/verif_elements.cpp
+edit ~/projects/systemc/verificacion_fifo/fifo_data_monitor.cpp
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -449,8 +436,231 @@ setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=0
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=ccomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal scrollbind
+setlocal shiftwidth=3
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en_us
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=3
+setlocal tags=~/projects/systemc/verificacion_fifo/.git/cpp.tags,~/projects/systemc/verificacion_fifo/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 4 - ((3 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+4
+normal! 05l
+wincmd w
+argglobal
+edit ~/projects/systemc/verificacion_fifo/fifo_data_monitor.hpp
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=ccomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+set scrollbind
+setlocal noscrollbind
+setlocal shiftwidth=3
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en_us
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=3
+setlocal tags=~/projects/systemc/verificacion_fifo/.git/cpp.tags,~/projects/systemc/verificacion_fifo/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 60 - ((59 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+60
+normal! 016l
+wincmd w
+argglobal
+edit ~/projects/systemc/verificacion_fifo/test_bench.cpp
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
 setlocal indentexpr=
@@ -495,7 +705,7 @@ if &syntax != 'cpp'
 setlocal syntax=cpp
 endif
 setlocal tabstop=3
-setlocal tags=
+setlocal tags=~/projects/systemc/verificacion_fifo/.git/cpp.tags,~/projects/systemc/verificacion_fifo/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
@@ -504,16 +714,16 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 186 - ((13 * winheight(0) + 14) / 28)
+let s:l = 12 - ((11 * winheight(0) + 16) / 32)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-186
+12
 normal! 0
-lcd ~/projects/systemc/Codigo/proyecto_verificacion
+lcd ~/projects/systemc/verificacion_fifo
 wincmd w
 argglobal
-edit ~/projects/systemc/Codigo/proyecto_verificacion/verification_defs.hpp
+edit ~/projects/systemc/verificacion_fifo/verif_elements.h
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -561,7 +771,7 @@ setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
-setlocal iminsert=0
+setlocal iminsert=2
 setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
@@ -590,7 +800,8 @@ setlocal noreadonly
 setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
-setlocal noscrollbind
+set scrollbind
+setlocal scrollbind
 setlocal shiftwidth=3
 setlocal noshortname
 setlocal smartindent
@@ -607,7 +818,7 @@ if &syntax != 'cpp'
 setlocal syntax=cpp
 endif
 setlocal tabstop=3
-setlocal tags=
+setlocal tags=~/projects/systemc/verificacion_fifo/.git/cpp.tags,~/projects/systemc/verificacion_fifo/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
@@ -616,29 +827,30 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 29 - ((18 * winheight(0) + 13) / 27)
+let s:l = 6 - ((5 * winheight(0) + 16) / 32)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-29
-normal! 031l
+6
+normal! 019l
+lcd ~/projects/systemc/verificacion_fifo
 wincmd w
 argglobal
-edit ~/projects/systemc/Codigo/proyecto_verificacion/fifo_data_monitor.cpp
+enew
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
 setlocal balloonexpr=
 setlocal nobinary
-setlocal bufhidden=
+setlocal bufhidden=wipe
 setlocal buflisted
-setlocal buftype=
+setlocal buftype=quickfix
 setlocal nocindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
 setlocal commentstring=/*%s*/
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
@@ -655,8 +867,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'c'
-setlocal filetype=c
+if &filetype != 'qf'
+setlocal filetype=qf
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -669,10 +881,10 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=croql
+setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
-setlocal iminsert=0
+setlocal iminsert=2
 setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
@@ -687,12 +899,12 @@ setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
 setlocal nomodeline
-setlocal modifiable
+setlocal nomodifiable
 setlocal nrformats=octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=ccomplete#Complete
+setlocal omnifunc=
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -701,7 +913,8 @@ setlocal noreadonly
 setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
-setlocal noscrollbind
+set scrollbind
+setlocal scrollbind
 setlocal shiftwidth=3
 setlocal noshortname
 setlocal smartindent
@@ -710,379 +923,38 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en_us
-setlocal statusline=
+setlocal statusline=%t%{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
 setlocal suffixesadd=
-setlocal swapfile
+setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != 'c'
-setlocal syntax=c
+if &syntax != 'qf'
+setlocal syntax=qf
 endif
 setlocal tabstop=3
-setlocal tags=
+setlocal tags=~/projects/systemc/verificacion_fifo/.git/qf.tags,~/projects/systemc/verificacion_fifo/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
-setlocal nowinfixheight
+setlocal winfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 29 - ((17 * winheight(0) + 13) / 27)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-29
-normal! 017l
 wincmd w
-argglobal
-edit ~/projects/systemc/Codigo/proyecto_verificacion/fifo_data_monitor.hpp
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal balloonexpr=
-setlocal nobinary
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
-setlocal cinoptions=
-setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=/*%s*/
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'cpp'
-setlocal filetype=cpp
-endif
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=croql
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=2
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
-setlocal nolinebreak
-setlocal nolisp
-setlocal nolist
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
-setlocal nomodeline
-setlocal modifiable
-setlocal nrformats=octal,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=ccomplete#Complete
-setlocal path=
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal shiftwidth=3
-setlocal noshortname
-setlocal smartindent
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en_us
-setlocal statusline=
-setlocal suffixesadd=
-setlocal swapfile
-setlocal synmaxcol=3000
-if &syntax != 'cpp'
-setlocal syntax=cpp
-endif
-setlocal tabstop=3
-setlocal tags=
-setlocal textwidth=0
-setlocal thesaurus=
-setlocal noundofile
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 30 - ((13 * winheight(0) + 13) / 27)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-30
-normal! 0
-wincmd w
-argglobal
-edit ~/projects/systemc/Codigo/proyecto_verificacion/verif_elements.h
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal balloonexpr=
-setlocal nobinary
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
-setlocal cinoptions=
-setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=/*%s*/
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'cpp'
-setlocal filetype=cpp
-endif
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=croql
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=0
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
-setlocal nolinebreak
-setlocal nolisp
-setlocal nolist
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
-setlocal nomodeline
-setlocal modifiable
-setlocal nrformats=octal,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=ccomplete#Complete
-setlocal path=
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal shiftwidth=3
-setlocal noshortname
-setlocal smartindent
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en_us
-setlocal statusline=
-setlocal suffixesadd=
-setlocal swapfile
-setlocal synmaxcol=3000
-if &syntax != 'cpp'
-setlocal syntax=cpp
-endif
-setlocal tabstop=3
-setlocal tags=
-setlocal textwidth=0
-setlocal thesaurus=
-setlocal noundofile
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 7 - ((6 * winheight(0) + 13) / 27)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-7
-normal! 064l
-wincmd w
-argglobal
-edit ~/projects/systemc/Codigo/proyecto_verificacion/test_bench.cpp
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal balloonexpr=
-setlocal nobinary
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
-setlocal cinoptions=
-setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=/*%s*/
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'cpp'
-setlocal filetype=cpp
-endif
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=croql
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=2
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
-setlocal nolinebreak
-setlocal nolisp
-setlocal nolist
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
-setlocal nomodeline
-setlocal modifiable
-setlocal nrformats=octal,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=ccomplete#Complete
-setlocal path=
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal shiftwidth=3
-setlocal noshortname
-setlocal smartindent
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en_us
-setlocal statusline=
-setlocal suffixesadd=
-setlocal swapfile
-setlocal synmaxcol=3000
-if &syntax != 'cpp'
-setlocal syntax=cpp
-endif
-setlocal tabstop=3
-setlocal tags=
-setlocal textwidth=0
-setlocal thesaurus=
-setlocal noundofile
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 8 - ((7 * winheight(0) + 28) / 56)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-8
-normal! 0
-wincmd w
-4wincmd w
-exe '1resize ' . ((&lines * 28 + 29) / 58)
-exe 'vert 1resize ' . ((&columns * 54 + 102) / 205)
-exe '2resize ' . ((&lines * 28 + 29) / 58)
-exe 'vert 2resize ' . ((&columns * 54 + 102) / 205)
-exe '3resize ' . ((&lines * 28 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 54 + 102) / 205)
-exe '4resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 4resize ' . ((&columns * 40 + 102) / 205)
-exe '5resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 5resize ' . ((&columns * 40 + 102) / 205)
-exe '6resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 6resize ' . ((&columns * 41 + 102) / 205)
-exe '7resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 7resize ' . ((&columns * 40 + 102) / 205)
-exe 'vert 8resize ' . ((&columns * 40 + 102) / 205)
+3wincmd w
+exe '1resize ' . ((&lines * 38 + 39) / 78)
+exe 'vert 1resize ' . ((&columns * 69 + 139) / 279)
+exe '2resize ' . ((&lines * 37 + 39) / 78)
+exe 'vert 2resize ' . ((&columns * 69 + 139) / 279)
+exe '3resize ' . ((&lines * 65 + 39) / 78)
+exe 'vert 3resize ' . ((&columns * 69 + 139) / 279)
+exe '4resize ' . ((&lines * 65 + 39) / 78)
+exe 'vert 4resize ' . ((&columns * 69 + 139) / 279)
+exe '5resize ' . ((&lines * 32 + 39) / 78)
+exe 'vert 5resize ' . ((&columns * 69 + 139) / 279)
+exe '6resize ' . ((&lines * 32 + 39) / 78)
+exe 'vert 6resize ' . ((&columns * 69 + 139) / 279)
+exe '7resize ' . ((&lines * 10 + 39) / 78)
+exe 'vert 7resize ' . ((&columns * 209 + 139) / 279)
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

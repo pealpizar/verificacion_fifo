@@ -1,9 +1,15 @@
+#ifdef __VERIF_ELEMENTS_H__
+
 /**Definiciones para las definiciones de los elementos de verificación
  */
+
 #include <systemc.h>
 #include "scoreboard.hpp"
 #include "verification_defs.hpp"
+
+#ifndef VEL_NUM
 #define VEL_NUM 3
+#endif /* VEL_NUM */
 
 /**Este generador se puede dividir en dos o trabajar con el modelo in/out propuesto
  * */
@@ -22,6 +28,7 @@ SC_MODULE (generador) {
   int vel_act;
   void prc_generador ();
   void cnt_clk_gen ();
+  log_t coverage;
   SC_CTOR(generador){
     velocidades[0] = 20;
     velocidades[1] = 30;
@@ -72,3 +79,4 @@ SC_MODULE (datos_checker){
   }
 };
 
+#endif /* __VERIF_ELEMENTS_H__ */
