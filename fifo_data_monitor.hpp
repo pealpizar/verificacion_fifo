@@ -1,10 +1,12 @@
 #ifdef __FIFO_DATA_MONITOR__
 
+#include <systemc.h>
+
 #include "verification_defs.hpp"
 #include "srl_fifo.hpp"
 
 // VHD model can hold 32 entries of size DATA_LENGTH
-#define FIFO_SIZE ( 32 * DATA_LENGTH / 8 )
+#define FIFO_SIZE DATA_LENGTH
 
 using namespace std;
 
@@ -16,7 +18,7 @@ class fifo_fmodel
       fifo_fmodel(); 
       status_t write( data_t data) 
       { 
-         if( fifo.size() < FIFO_SIZE )
+         if( fifo.size() <= FIFO_SIZE )
          {
             return fifo.push( data ); 
          }
@@ -48,14 +50,14 @@ SC_MODULE (fifo_mon){
   //Aquí las señales de estado no deberían ser necesarias
   sc_in < bool > reset, write, read;
   sc_in_clk      clk;
-  log_t log_entry;
+  log_t coverage;
   // functional model 
   fifo_fmodel fmodel;
 
   void prc_fifo_mon();
   SC_CTOR (fifo_mon) {
     SC_METHOD (prc_fifo_mon);
-      sensitive << reset << write << read << clk;
+      sensitive  <<  clk;
   }
 };
 
