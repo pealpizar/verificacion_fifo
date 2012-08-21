@@ -1,10 +1,12 @@
-#ifdef __FIFO_DATA_MONITOR__
+#ifndef __FIFO_DATA_MONITOR__
+#define __FIFO_DATA_MONITOR__
 
+#include <queue>
+#include "verification_defs.hpp"
+#include "srl_fifo_16.h"
+#include "scoreboard.hpp"
 #include <systemc.h>
 
-#include "verification_defs.hpp"
-#include "srl_fifo.hpp"
-#include "scoreboard.hpp"
 
 // VHD model can hold 32 entries of size DATA_LENGTH
 #define FIFO_SIZE DATA_LENGTH
@@ -19,39 +21,41 @@ typedef enum state_e
 
 using namespace std;
 
-typedef uint8_t data_t;
+typedef sc_lv<8>  data_t;
 
 class fifo_fmodel
 {
    public:
-      fifo_fmodel(); 
-      status_t write( data_t data) 
+      coverage_e write( data_t data) 
       { 
          if( fifo.size() <= FIFO_SIZE )
          {
-            return fifo.push( data ); 
+            fifo.push( data ); 
+            return FIFO_WRITE;
          }
          return FIFO_FULL;
       }
-      status_t read( data_t data)  
+      coverage_e read( data_t data)  
       { 
          if( fifo.empty() )
          {
             return FIFO_EMPTY;
          }
-         if( fifo.pop() != data )
+         if( fifo.front() != data )
          {
+            fifo.pop();
             return DATA_CORRUPTION;
          }
+         fifo.pop();
          return DATA_EQUAL;
       }
-      status_t reset()
+      coverage_e reset()
       {
          return RESET_CORRECT;
       }
 
    private:
-      queue<data> fifo; 
+      queue<data_t> fifo; 
 
 };
 

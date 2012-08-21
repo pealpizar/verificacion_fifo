@@ -4,8 +4,10 @@
  */
 #include "srl_fifo_16.h"
 #include "verif_elements.h"
-#include "fifo_data_monitor.h"
+#include "fifo_data_monitor.hpp"
 #include "scoreboard.hpp"
+#include "verification_defs.hpp"
+#include <systemc.h>
 
 // global variable for scoreboarding
 scoreboard_c scoreboard;
@@ -19,6 +21,7 @@ int sc_main(int argc, char* argv[]) {
   sc_trace(wf, clock, "clock");
   sc_trace(wf, reset, "reset");
   sc_trace(wf, read, "read");
+  sc_trace(wf, write, "write");
   sc_trace(wf, full, "full");
   sc_trace(wf, half_full, "half_full");
   sc_trace(wf, data_present, "data_present");
@@ -80,6 +83,10 @@ int sc_main(int argc, char* argv[]) {
   cheq_fifo.write(write);
   cheq_fifo.read(read);
   cheq_fifo.clk(clock);
+  
+  reset.write(true);
+  sc_start(20,SC_SEC);
+  reset.write(false);
   sc_start(20,SC_SEC);
 
   //scoreboard logging

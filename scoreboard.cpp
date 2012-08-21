@@ -5,7 +5,7 @@
  * This is meant to be aligned with coverate_t 
  * definitions
  * **************************************************/
-void scoreboard_c::scoreboard_c()
+scoreboard_c::scoreboard_c()
 {
    logFile.open( "fifo_log.txt" );
 
@@ -21,32 +21,31 @@ void scoreboard_c::scoreboard_c()
    coverageDes[99] = "UNKNOWN";
 
 
-   statusDes[0][0] = "FAIL";
-   statusDes[1][0] = "PASS";
+   statusDes[0] = "FAIL";
+   statusDes[1] = "PASS";
 
    coverage_stats.resize(100);
-
 }
-void scoreboard_c::~scoreboard_c()
+scoreboard_c::~scoreboard_c()
 {
    logFile.close();
 }
 void scoreboard_c::log(log_t log_entry )
 {
-   log.push(log_entry);
+   data_log.push_back(log_entry);
 }
 
 void scoreboard_c::write_log()
 {
    logFile << "EVENTS LOGGED ----- BEGIN -----" << endl;
 
-   for( int i = 0 ; i < log.size() ; i++ )
+   for( int i = 0 ; i < data_log.size() ; i++ )
    {
       // converting to text the log data 
       // sent to the scoreboard
-      int idx = (int) log[i].status;
+      int idx = (int) data_log[i].status;
       logFile << statusDes[idx] << "\t" ;
-      idx = (int) log[i].coverage;
+      idx = (int) data_log[i].coverage;
       logFile << coverageDes[idx] << endl ;
    }
 
@@ -54,10 +53,10 @@ void scoreboard_c::write_log()
 }
 void scoreboard_c::calc_stats()
 {
-   for( int i = 0 ; i < log.size() ; i++ )
+   for( int i = 0 ; i < data_log.size() ; i++ )
    {
-      int idx  = (int) log[i].coverage;
-      status_t  result = log[i].status;
+      int idx  = (int) data_log[i].coverage;
+      status_t  result = data_log[i].status;
 
       switch( result )
       {
@@ -71,8 +70,7 @@ void scoreboard_c::calc_stats()
             cout << " Error: unexpected " << __FILE__ << " " << __LINE__  << endl;
             break;
       }
-
-
+   }
 }
 void scoreboard_c::write_stats()
 {

@@ -1,34 +1,31 @@
-#ifdef __VERIFICATION_DEFS_H__
+#ifndef __VERIFICATION_DEFS_H__
 #define __VERIFICATION_DEFS_H__
 
 
 // set default architecture to 16 bits
-#define F16
 
-#ifdef F32
-#define DATA_LENGTH 32
-#elif F16
+#ifndef DATA_LENGTH 
 #define DATA_LENGTH 16
 #endif
 
-#extern scoreboard_c scoreboard;
+using namespace std;
 
 // General definition for coverage points
-enum 
+typedef enum coverage_e
 {
    FIFO_FULL = 0,          // 0
    FIFO_EMPTY,             // 1
    DATA_CORRUPTION,        // 2
    DATA_EQUAL,             // 3
-   RESET_CORRECT,          // 4
-   DATA_PRESENT_CORRECT,   // 5
-   DATA_LENGTH,            // 6
+   FIFO_WRITE,             // 4
+   RESET_CORRECT,          // 5
+   DATA_PRESENT_CORRECT,   // 6
    HALF_FULL_SIGNAL,       // 7
    FULL_SIGNAL,            // 8
 
    UNKNOWN = 99,           // 99
 } coverage_t;
-enum
+typedef enum status_e
 {
    FAIL = 0,
    PASS,

@@ -1,8 +1,12 @@
-#ifdef __SCOREBOARD_H__
+#ifndef __SCOREBOARD_H__
+#define __SCOREBOARD_H__
 
 #include <queue>
 #include <iostream>
-#include <stdio>
+#include <stdio.h>
+#include <vector>
+#include <deque>
+#include <fstream>
 
 #include "verification_defs.hpp"
 typedef struct coverage_stats_s
@@ -17,23 +21,25 @@ class scoreboard_c
       scoreboard_c();
       ~scoreboard_c();
 
-      log(log_t log_entry );
-      write_report();
+      void log(log_t log_entry );
+      void write_report();
 
    private:
-      stats();
-      deque<log_t> log;
+      void stats();
+      deque<log_t> data_log;
       vector<coverage_stats_t> coverage_stats;
       // log file to save the reports
-      FILE logFile;
+      ofstream logFile;
       // space for up to 100 descriptions
       // and up to 100 characters each
-      char coverageDes [100][100];
-      char statusDes   [100][100];      [
+      string coverageDes [100];
+      string statusDes   [100];     
 
-      write_log();
-      write_stats();
-      calc_stats();
+      void write_log();
+      void write_stats();
+      void calc_stats();
 };
+
+extern scoreboard_c scoreboard;
 
 #endif /* __SCOREBOARD_H__ */
