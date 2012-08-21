@@ -21,6 +21,7 @@ int sc_main(int argc, char* argv[]) {
   sc_trace(wf, clock, "clock");
   sc_trace(wf, reset, "reset");
   sc_trace(wf, read, "read");
+  sc_trace(wf, write, "write");
   sc_trace(wf, full, "full");
   sc_trace(wf, half_full, "half_full");
   sc_trace(wf, data_present, "data_present");
