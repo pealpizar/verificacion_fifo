@@ -13,6 +13,18 @@ scoreboard_c scoreboard;
 int sc_main(int argc, char* argv[]) {
   sc_signal< sc_lv<8> >  data_in, data_out;
   sc_signal< bool > reset, write, read, full, half_full, data_present, clk, tipo_w, tipo_r;
+  sc_set_time_resolution(1,SC_MS);
+  sc_clock clock("my_clock", 10, 0.5, 1, false);
+  sc_trace_file *wf = sc_create_vcd_trace_file("counter");
+  sc_trace(wf, clock, "clock");
+  sc_trace(wf, reset, "reset");
+  sc_trace(wf, read, "read");
+  sc_trace(wf, full, "full");
+  sc_trace(wf, half_full, "half_full");
+  sc_trace(wf, data_present, "data_present");
+  sc_trace(wf, data_in, "data_in");
+  sc_trace(wf, data_out, "data_out");
+  
   int seed;
   seed = rand();
 
@@ -30,7 +42,7 @@ int sc_main(int argc, char* argv[]) {
   dut.full(full);
   dut.half_full(half_full);
   dut.data_present(data_present);
-  dut.clk(clk);
+  dut.clk(clock);
 
   //Generador de escrituras
   generador write_gen("gen_escrituras");
@@ -38,7 +50,7 @@ int sc_main(int argc, char* argv[]) {
   write_gen.reset(reset);
   write_gen.read_write(write);
   write_gen.tipo(tipo_w);
-  write_gen.clk(clk);
+  write_gen.clk(clock);
   write_gen.seed = seed;
 
   //Generador de lecturas
@@ -47,7 +59,7 @@ int sc_main(int argc, char* argv[]) {
   read_gen.reset(reset);
   read_gen.read_write(read);
   read_gen.tipo(tipo_r);
-  read_gen.clk(clk);
+  read_gen.clk(clock);
   read_gen.seed = seed;
 
   sen_checker cheq_sen("cheq_signals");
@@ -59,7 +71,7 @@ int sc_main(int argc, char* argv[]) {
   cheq_sen.full(full);
   cheq_sen.half_full(half_full);
   cheq_sen.data_present(data_present);
-  cheq_sen.clk(clk);
+  cheq_sen.clk(clock);
 
   fifo_mon cheq_fifo("modelo_fifo");
   cheq_fifo.data_in(data_in);
@@ -67,12 +79,14 @@ int sc_main(int argc, char* argv[]) {
   cheq_fifo.reset(reset);
   cheq_fifo.write(write);
   cheq_fifo.read(read);
-  cheq_fifo.clk(clk);
-  sc_start();
-  sc_stop();
+  cheq_fifo.clk(clock);
+  sc_start(20,SC_SEC);
 
   //scoreboard logging
 
+  
+  sc_close_vcd_trace_file(wf);
+  //sc_stop();
   
   return(0);
 }
