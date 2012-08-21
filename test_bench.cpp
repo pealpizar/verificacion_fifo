@@ -82,6 +82,10 @@ int sc_main(int argc, char* argv[]) {
   cheq_fifo.write(write);
   cheq_fifo.read(read);
   cheq_fifo.clk(clock);
+  
+  reset.write(true);
+  sc_start(20,SC_SEC);
+  reset.write(false);
   sc_start(20,SC_SEC);
 
   //scoreboard logging
