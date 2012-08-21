@@ -42,7 +42,7 @@ SC_MODULE (generador) {
     sensitive << clk << reset;
     
     SC_METHOD (cnt_clk_gen);
-    sensitive << clk;
+    sensitive << clk.pos();
   }
 };
 
@@ -64,7 +64,7 @@ SC_MODULE (sen_checker){
     SC_METHOD (cnt_clk_sen);
       sensitive << clk;
     SC_METHOD (prc_sen_checker);
-      sensitive << reset << write << read << full << data_present << half_full << clk;
+      sensitive << clk;
   }
 };
 

@@ -8,7 +8,7 @@
 //systemC
 #include <systemc.h>
 
-class fifo_srl : public sc_module
+class srl_fifo_16 : public ncsc_foreign_module
 {
   public:
     sc_in< sc_lv<8> >  data_in;
@@ -21,11 +21,12 @@ class fifo_srl : public sc_module
     sc_out< bool >     data_present;
     sc_in_clk          clk;
     
-    fifo_srl(sc_module_name nm)
-      : sc_module (nm), data_in("data_in"), 
+    srl_fifo_16(sc_module_name nm)
+      : ncsc_foreign_module(nm), data_in("data_in"), 
       data_out("data_out"), reset("reset"), write ("write"), read("read"), 
       full("full"), half_full("half_full"), data_present("data_present"), 
       clk("clk"){}
+    const char*hdl_name()const {return "srl_fifo_16";}
 };
 /*
 library IEEE;

@@ -11,8 +11,8 @@
 #include "verification_defs.hpp"
 typedef struct coverage_stats_s
 {
-   unsigned pass;
-   unsigned fail;
+   unsigned int pass;
+   unsigned int fail;
 }coverage_stats_t;
 
 class scoreboard_c

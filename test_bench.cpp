@@ -30,13 +30,14 @@ int sc_main(int argc, char* argv[]) {
   
   int seed;
   seed = rand();
+  srand(seed);
 
   tipo_w.write(1);
   tipo_r.write(0);
 
   //Declaración de los bloques
   //DUT
-  fifo_srl dut("srl_fifo_16");
+  srl_fifo_16 dut("srl_fifo_16");
   dut.data_in(data_in);
   dut.data_out(data_out);
   dut.reset(reset);
@@ -85,11 +86,20 @@ int sc_main(int argc, char* argv[]) {
   cheq_fifo.clk(clock);
   
   reset.write(true);
-  sc_start(20,SC_SEC);
+  sc_start(1,SC_SEC);
   reset.write(false);
-  sc_start(20,SC_SEC);
+  sc_start(10,SC_SEC);
+  reset.write(true);
+  sc_start(1,SC_SEC);
+  reset.write(false);
+  sc_start(10,SC_SEC);
+  reset.write(true);
+  sc_start(1,SC_SEC);
+  reset.write(false);
+  sc_start(10,SC_SEC);
 
   //scoreboard logging
+  scoreboard.write_report();
 
   
   sc_close_vcd_trace_file(wf);

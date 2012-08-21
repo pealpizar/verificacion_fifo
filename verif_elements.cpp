@@ -6,17 +6,12 @@
 #include "verification_defs.hpp"
 
 void generador::cnt_clk_gen (){
-  static bool tmp_clk = false;
-  if (tmp_clk && !clk.read()){
+  if (clk.read()){
     cnt_periodo++;
-  } else {
-    tmp_clk = clk.read();
   }
 }
 
 void generador::prc_generador () {
-
-  srand(seed);
   
   if (reset.read()) {  
     if (cnt_periodo >= 2) {
@@ -37,9 +32,9 @@ void generador::prc_generador () {
       } else {
         //Cada vez que se sale de reset se cambia la velocidad
         if (tipo == 1) {
-          vel_act = (vel_act == VEL_NUM-1)? vel_act : vel_act++;
+          vel_act = (vel_act == VEL_NUM-1)? vel_act : ++vel_act;
         } else {
-          vel_act = (vel_act == 0)? vel_act : vel_act--;
+          vel_act = (vel_act == 0)? vel_act : --vel_act;
         }
       }
     }
