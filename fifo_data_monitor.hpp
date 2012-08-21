@@ -8,6 +8,14 @@
 
 // VHD model can hold 32 entries of size DATA_LENGTH
 #define FIFO_SIZE DATA_LENGTH
+typedef enum state_e
+{
+   NOP,
+   READ,
+   WRITE,
+   RESET,
+
+} state_t;
 
 using namespace std;
 
@@ -37,7 +45,10 @@ class fifo_fmodel
          }
          return DATA_EQUAL;
       }
-      status_t read( data_t data);
+      status_t reset()
+      {
+         return RESET_CORRECT;
+      }
 
    private:
       queue<data> fifo; 
@@ -54,11 +65,14 @@ SC_MODULE (fifo_mon){
   log_t report;
   // functional model 
   fifo_fmodel fmodel;
+  state_t state;
+  data_t data;
 
   void prc_fifo_mon();
   SC_CTOR (fifo_mon) {
     SC_METHOD (prc_fifo_mon);
       sensitive  <<  clk;
+      state = NOP;
   }
 };
 

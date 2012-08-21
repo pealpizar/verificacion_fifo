@@ -3,23 +3,47 @@
 
 void fifo_mon::prc_fifo_mon()
 {
-   if( reset == 1 )
+   switch( state )
    {
-      readState = 0;
-      writeState = 0;
-      goto END:
+      NOP:
+         break;
+      READ:
+         report.coverage = fmodel.read(data);
+         break;
+      WRITE:
+         report.coverage = fmodel.write(data);
+         break;
+      RESET:
+         if( reset )
+         { 
+            report.coverage = fmodel.reset();
+         }
+         break;
+   }
+   if( reset )
+   {
+      if( state == RESET )
+      {
+         state = NOP;
+         goto END;
+      }
+      else
+      {
+         state = RESET;
+      }
    }
    if( read && !write )
    {
-      readState = 1;
+      state = READ;
       data = data_out;
-      report.coverage = fmodel.read(data);
+   }
    else if( write && !read )
    {
-      data = data_out;
-      report.coverage = fmodel.write(data);
+      state = WRITE;
+      data = data_in;
    }
    else { goto END; }
+
 
    switch( report.coverage )
    {
@@ -33,6 +57,9 @@ void fifo_mon::prc_fifo_mon()
          report.status = FAIL;
          break;
       case DATA_EQUAL:
+         report.status = PASS;
+         break;
+      case RESET_CORRECT;
          report.status = PASS;
          break;
       default:
