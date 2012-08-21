@@ -35,12 +35,12 @@ void fifo_mon::prc_fifo_mon()
    if( read && !write )
    {
       state = READ;
-      data = data_out;
+      data = data_out.read();
    }
    else if( write && !read )
    {
       state = WRITE;
-      data = data_in;
+      data = data_in.read();
    }
    else { goto END; }
 
@@ -48,10 +48,10 @@ void fifo_mon::prc_fifo_mon()
    switch( report.coverage )
    {
       case FIFO_FULL:
-         report.STATUS = PASS;
+         report.status = PASS;
          break;
       case FIFO_EMPTY:
-         report.STATUS = PASS;
+         report.status = PASS;
          break;
       case DATA_CORRUPTION:
          report.status = FAIL;
@@ -59,15 +59,15 @@ void fifo_mon::prc_fifo_mon()
       case DATA_EQUAL:
          report.status = PASS;
          break;
-      case RESET_CORRECT;
+      case RESET_CORRECT:
          report.status = PASS;
          break;
       default:
          report.coverage = UNKNOWN;
-         report.status = ERROR;
+         report.status = FAIL;
          break;
    }
-   scoreboard.log(coverage);
+   scoreboard.log(report);
    END:
    return;
 }

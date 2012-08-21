@@ -1,4 +1,5 @@
-#ifdef __VERIF_ELEMENTS_H__
+#ifndef __VERIF_ELEMENTS_H__
+#define __VERIF_ELEMENTS_H__
 
 /**Definiciones para las definiciones de los elementos de verificación
  */

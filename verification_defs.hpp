@@ -8,6 +8,8 @@
 #define DATA_LENGTH 16
 #endif
 
+using namespace std;
+
 // General definition for coverage points
 typedef enum coverage_e
 {

@@ -4,9 +4,10 @@
  */
 #include "srl_fifo_16.h"
 #include "verif_elements.h"
-#include "fifo_data_monitor.h"
+#include "fifo_data_monitor.hpp"
 #include "scoreboard.hpp"
 #include "verification_defs.hpp"
+#include <systemc.h>
 
 // global variable for scoreboarding
 scoreboard_c scoreboard;

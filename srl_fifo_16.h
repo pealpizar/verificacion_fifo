@@ -1,3 +1,5 @@
+#ifndef __SRL_FIFO_16__
+#define __SRL_FIFO_16__
 /**En este archivo se encuentra la declaración de la clase interfaz.
  * Esta clase tendrá acceso a todas las señales y podrá ser llamada. 
  * Utilizando este elemento es como si el DUT fuera systemC.
@@ -66,3 +68,5 @@ ncsc_set_hdl_param("ps2",ps2);
 const char*hdl_name()const {return "vmod";}
 };
 */
+
+#endif // __SRL_FIFO_16__

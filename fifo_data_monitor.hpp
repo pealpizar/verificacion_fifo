@@ -21,12 +21,11 @@ typedef enum state_e
 
 using namespace std;
 
-typedef uint8_t data_t;
+typedef sc_lv<8>  data_t;
 
 class fifo_fmodel
 {
    public:
-      fifo_fmodel(); 
       coverage_e write( data_t data) 
       { 
          if( fifo.size() <= FIFO_SIZE )

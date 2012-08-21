@@ -10,8 +10,7 @@ SRCCOMMONDIR    = .
 CPPFILES        = $(wildcard $(SRCDIR)/*.cpp)
  
 CFLAGS = $(FLAGS) $(INCDIR)
-
-OBJS =			main.o lib.o
+OBJS=$(CPPFILES:.cpp=.o)
 
 .PHONY: clean all check
 
@@ -34,11 +33,11 @@ $(OBJ_NAME).exe: $(OBJS)
 	$(LD) -o $@ $(OBJS) $(LDFLAGS)
 
 
-main.o: $(CPPFILES) 
+.cpp.o: 
 	$(GXX) $(CFLAGS) -c $< -o $@
 
-lib.o: verif_elements.cpp 
-	$(GXX) $(CFLAGS) -c $< -o $@
+#lib.o: verif_elements.cpp 
+#	$(GXX) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f *.o *.log $(OBJ_NAME).exe
