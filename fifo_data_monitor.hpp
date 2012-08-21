@@ -1,10 +1,21 @@
 #ifdef __FIFO_DATA_MONITOR__
 
+#include <systemc.h>
+
 #include "verification_defs.hpp"
 #include "srl_fifo.hpp"
+#include "scoreboard.hpp"
 
 // VHD model can hold 32 entries of size DATA_LENGTH
-#define FIFO_SIZE ( 32 * DATA_LENGTH / 8 )
+#define FIFO_SIZE DATA_LENGTH
+typedef enum state_e
+{
+   NOP,
+   READ,
+   WRITE,
+   RESET,
+
+} state_t;
 
 using namespace std;
 
@@ -16,7 +27,7 @@ class fifo_fmodel
       fifo_fmodel(); 
       status_t write( data_t data) 
       { 
-         if( fifo.size() < FIFO_SIZE )
+         if( fifo.size() <= FIFO_SIZE )
          {
             return fifo.push( data ); 
          }
@@ -34,7 +45,10 @@ class fifo_fmodel
          }
          return DATA_EQUAL;
       }
-      status_t read( data_t data);
+      status_t reset()
+      {
+         return RESET_CORRECT;
+      }
 
    private:
       queue<data> fifo; 
@@ -48,14 +62,17 @@ SC_MODULE (fifo_mon){
   //Aquí las señales de estado no deberían ser necesarias
   sc_in < bool > reset, write, read;
   sc_in_clk      clk;
-  log_t log_entry;
+  log_t report;
   // functional model 
   fifo_fmodel fmodel;
+  state_t state;
+  data_t data;
 
   void prc_fifo_mon();
   SC_CTOR (fifo_mon) {
     SC_METHOD (prc_fifo_mon);
-      sensitive << reset << write << read << clk;
+      sensitive  <<  clk;
+      state = NOP;
   }
 };
 
