@@ -2,6 +2,7 @@
  */
 #include <systemc.h>
 #include "scoreboard.hpp"
+#include "verification_defs.hpp"
 #define VEL_NUM 3
 
 /**Este generador se puede dividir en dos o trabajar con el modelo in/out propuesto

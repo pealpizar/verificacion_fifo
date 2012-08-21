@@ -1,7 +1,10 @@
-#ifdef __FIFO_DATA_MONITOR__
+#ifndef __FIFO_DATA_MONITOR__
+#define __FIFO_DATA_MONITOR__
 
+#include <queue>
 #include "verification_defs.hpp"
-#include "srl_fifo.hpp"
+#include "srl_fifo_16.h"
+#include <systemc.h>
 
 // VHD model can hold 32 entries of size DATA_LENGTH
 #define FIFO_SIZE ( 32 * DATA_LENGTH / 8 )
@@ -14,30 +17,32 @@ class fifo_fmodel
 {
    public:
       fifo_fmodel(); 
-      status_t write( data_t data) 
+      coverage_e write( data_t data) 
       { 
          if( fifo.size() < FIFO_SIZE )
          {
-            return fifo.push( data ); 
+            fifo.push( data ); 
+            return FIFO_WRITE;
          }
          return FIFO_FULL;
       }
-      status_t read( data_t data)  
+      coverage_e read( data_t data)  
       { 
          if( fifo.empty() )
          {
             return FIFO_EMPTY;
          }
-         if( fifo.pop() != data )
+         if( fifo.front() != data )
          {
+            fifo.pop();
             return DATA_CORRUPTION;
          }
+         fifo.pop();
          return DATA_EQUAL;
       }
-      status_t read( data_t data);
 
    private:
-      queue<data> fifo; 
+      queue<data_t> fifo; 
 
 };
 

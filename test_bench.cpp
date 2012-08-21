@@ -6,6 +6,7 @@
 #include "verif_elements.h"
 #include "fifo_data_monitor.h"
 #include "scoreboard.hpp"
+#include "verification_defs.hpp"
 
 // global variable for scoreboarding
 scoreboard_c scoreboard;

@@ -1,8 +1,9 @@
-#ifdef __SCOREBOARD_H__
+#ifndef __SCOREBOARD_H__
+#define __SCOREBOARD_H__
 
 #include <queue>
 #include <iostream>
-#include <stdio>
+#include <stdio.h>
 
 #include "verification_defs.hpp"
 typedef struct coverage_stats_s
