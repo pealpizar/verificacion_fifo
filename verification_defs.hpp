@@ -5,7 +5,7 @@
 // set default architecture to 16 bits
 
 #ifndef DATA_LENGTH 
-#define DATA_LENGTH 16
+#define DATA_LENGTH 32
 #endif
 
 using namespace std;

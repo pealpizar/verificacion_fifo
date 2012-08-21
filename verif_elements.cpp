@@ -23,19 +23,19 @@ void generador::prc_generador () {
       cnt_periodo = 0;
       tmp_reset = false;
       //inicialización de la velocidad
-      if (vel_act == -1) {
-        if (tipo == 1) {
-          vel_act = 0;
-        } else {
-          vel_act = VEL_NUM-1;
-        }
-      } else {
-        //Cada vez que se sale de reset se cambia la velocidad
-        if (tipo == 1) {
-          vel_act = (vel_act == VEL_NUM-1)? vel_act : ++vel_act;
-        } else {
-          vel_act = (vel_act == 0)? vel_act : --vel_act;
-        }
+      switch (vel_act) {
+        case -1:
+          vel_act = (tipo == 1)? 0:VEL_NUM-1;
+          break;
+        case 0:
+          vel_act = (tipo == 1)? 1: 0;
+          break;
+        case 1:
+          vel_act = (tipo == 1)? 2: 0;
+          break;
+        case 2:
+          vel_act = (tipo == 1)? 2: 1;
+          break;
       }
     }
     if (cnt_periodo < (velocidades[vel_act]/2) ){
@@ -71,7 +71,7 @@ void sen_checker::prc_sen_checker () {
       cnt_periodo = 0;
       cnt_data = 0;
       pasos = 0;
-      if ( (data_out.read() ==0) && !full.read() && !half_full.read() && !data_present.read()) {
+      if ( !full.read() && !half_full.read() && !data_present.read()) {
         report.coverage = RESET_CORRECT;
         report.status = PASS;
         scoreboard.log(report);
@@ -93,6 +93,26 @@ void sen_checker::prc_sen_checker () {
         scoreboard.log(report);
       }
     } else {
+      //Revisa que las señales se encuntren levantadas solo cuando es debido
+      if (full.read() && (cnt_data == DATA_LENGTH)) {
+        report.coverage = FULL_SIGNAL;
+        report.status = PASS;
+        scoreboard.log(report);
+      } else {
+        report.coverage = FULL_SIGNAL;
+        report.status = FAIL;
+        scoreboard.log(report);
+      }
+      if (half_full.read() && (cnt_data == DATA_LENGTH/2)) {
+        report.coverage = HALF_FULL_SIGNAL;
+        report.status = PASS;
+        scoreboard.log(report);
+      } else {
+        report.coverage = HALF_FULL_SIGNAL;
+        report.status = FAIL;
+        scoreboard.log(report);
+      }
+      
       switch (pasos) {
         case 0:
           cnt_periodo = 0;
@@ -130,7 +150,7 @@ void sen_checker::prc_sen_checker () {
                 break;
               }
               if (cnt_data == DATA_LENGTH) {
-                if (half_full.read()) {
+                if (full.read()) {
                   report.coverage = FULL_SIGNAL;
                   report.status = PASS;
                   scoreboard.log(report);

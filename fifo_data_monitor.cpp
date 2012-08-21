@@ -5,15 +5,15 @@ void fifo_mon::prc_fifo_mon()
 {
    switch( state )
    {
-      NOP:
+      case NOP:
          break;
-      READ:
+      case READ:
          report.coverage = fmodel.read(data);
          break;
-      WRITE:
+      case WRITE:
          report.coverage = fmodel.write(data);
          break;
-      RESET:
+      case RESET:
          if( reset )
          { 
             report.coverage = fmodel.reset();

@@ -2,12 +2,20 @@
  * instanciados los elementos y tal vez el clock. Por ahora sólo llamando al 
  * DUT.
  */
+#include "verification_defs.hpp"
+#if DATA_LENGTH==16
 #include "srl_fifo_16.h"
+#else
+#include "srl_fifo_32.h"
+#endif
+
+
 #include "verif_elements.h"
 #include "fifo_data_monitor.hpp"
 #include "scoreboard.hpp"
-#include "verification_defs.hpp"
 #include <systemc.h>
+
+
 
 // global variable for scoreboarding
 scoreboard_c scoreboard;
@@ -37,7 +45,11 @@ int sc_main(int argc, char* argv[]) {
 
   //Declaración de los bloques
   //DUT
+#if DATA_LENGTH==16
   srl_fifo_16 dut("srl_fifo_16");
+#else
+  srl_fifo_32 dut("srl_fifo_32");
+#endif
   dut.data_in(data_in);
   dut.data_out(data_out);
   dut.reset(reset);
@@ -92,7 +104,7 @@ int sc_main(int argc, char* argv[]) {
   reset.write(true);
   sc_start(1,SC_SEC);
   reset.write(false);
-  sc_start(10,SC_SEC);
+  sc_start(20,SC_SEC);
   reset.write(true);
   sc_start(1,SC_SEC);
   reset.write(false);
