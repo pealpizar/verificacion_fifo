@@ -15,7 +15,7 @@ scoreboard_c::scoreboard_c()
    coverageDes[3] = "DATA_EQUAL";
    coverageDes[4] = "FIFO_WRITE";
    coverageDes[5] = "RESET_CORRECT";
-   coverageDes[5] = "DATA_PRESENT_CORRECT";
+   coverageDes[6] = "DATA_PRESENT_CORRECT";
    coverageDes[7] = "HALF_FULL_SIGNAL";
    coverageDes[8] = "FULL_SIGNAL";
    coverageDes[99] = "UNKNOWN";
