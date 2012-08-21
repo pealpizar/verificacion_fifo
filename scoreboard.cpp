@@ -13,9 +13,9 @@ scoreboard_c::scoreboard_c()
    coverageDes[1] = "FIFO_EMPTY";
    coverageDes[2] = "DATA_CORRUPTION";
    coverageDes[3] = "DATA_EQUAL";
-   coverageDes[4] = "RESET_CORRECT";
+   coverageDes[4] = "FIFO_WRITE";
+   coverageDes[5] = "RESET_CORRECT";
    coverageDes[5] = "DATA_PRESENT_CORRECT";
-   coverageDes[6] = "DATA_LENGTH";
    coverageDes[7] = "HALF_FULL_SIGNAL";
    coverageDes[8] = "FULL_SIGNAL";
    coverageDes[99] = "UNKNOWN";
@@ -97,6 +97,7 @@ void scoreboard_c::write_stats()
 
 void scoreboard_c::write_report()
 {
+   calc_stats();
    write_log();
    write_stats();
 }
