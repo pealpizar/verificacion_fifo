@@ -44,29 +44,12 @@ void fifo_mon::prc_fifo_mon()
    }
    else { goto END; }
 
+   if      ( report.coverage == FIFO_FULL )       { report.status = PASS; }
+   else if ( report.coverage == FIFO_EMPTY )      { report.status = PASS; }
+   else if ( report.coverage == DATA_CORRUPTION ) { report.status = FAIL; }
+   else if ( report.coverage == DATA_EQUAL )      { report.status = PASS; }
+   else if ( report.coverage == RESET_CORRECT )   { report.status = PASS; }
 
-   switch( report.coverage )
-   {
-      case FIFO_FULL:
-         report.status = PASS;
-         break;
-      case FIFO_EMPTY:
-         report.status = PASS;
-         break;
-      case DATA_CORRUPTION:
-         report.status = FAIL;
-         break;
-      case DATA_EQUAL:
-         report.status = PASS;
-         break;
-      case RESET_CORRECT:
-         report.status = PASS;
-         break;
-      default:
-         report.coverage = UNKNOWN;
-         report.status = FAIL;
-         break;
-   }
    scoreboard.log(report);
    END:
    return;
