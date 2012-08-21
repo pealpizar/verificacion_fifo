@@ -4,6 +4,7 @@
 
 #include "verification_defs.hpp"
 #include "srl_fifo.hpp"
+#include "scoreboard.hpp"
 
 // VHD model can hold 32 entries of size DATA_LENGTH
 #define FIFO_SIZE DATA_LENGTH
@@ -50,7 +51,7 @@ SC_MODULE (fifo_mon){
   //Aquí las señales de estado no deberían ser necesarias
   sc_in < bool > reset, write, read;
   sc_in_clk      clk;
-  log_t coverage;
+  log_t report;
   // functional model 
   fifo_fmodel fmodel;
 

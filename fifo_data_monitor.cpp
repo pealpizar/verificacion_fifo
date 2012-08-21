@@ -12,30 +12,32 @@ void fifo_mon::prc_fifo_mon()
    if( read && !write )
    {
       readState = 1;
-      coverage.coverage = fmodel.read(data);
+      data = data_out;
+      report.coverage = fmodel.read(data);
    else if( write && !read )
    {
-      coverage.coverage = fmodel.write(data);
+      data = data_out;
+      report.coverage = fmodel.write(data);
    }
    else { goto END; }
 
-   switch( coverage.coverage )
+   switch( report.coverage )
    {
       case FIFO_FULL:
-         coverage.STATUS = PASS;
+         report.STATUS = PASS;
          break;
       case FIFO_EMPTY:
-         coverage.STATUS = PASS;
+         report.STATUS = PASS;
          break;
       case DATA_CORRUPTION:
-         coverage.status = FAIL;
+         report.status = FAIL;
          break;
       case DATA_EQUAL:
-         coverage.status = PASS;
+         report.status = PASS;
          break;
       default:
-         coverage.coverage = UNKNOWN;
-         coverage.status = ERROR;
+         report.coverage = UNKNOWN;
+         report.status = ERROR;
          break;
    }
    scoreboard.log(coverage);
