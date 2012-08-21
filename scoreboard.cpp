@@ -56,41 +56,31 @@ void scoreboard_c::calc_stats()
    for( int i = 0 ; i < data_log.size() ; i++ )
    {
       int idx  = (int) data_log[i].coverage;
-      status_t  result = data_log[i].status;
+      status_t result = data_log[i].status;
 
-      switch( result )
-      {
-         PASS:
-            coverage_stats[idx].pass++;
-            break;
-         FAIL:
-            coverage_stats[idx].fail++;
-            break;
-         DEFAULT:
-            cout << " Error: unexpected " << __FILE__ << " " << __LINE__  << endl;
-            break;
-      }
+      if(result == PASS) { coverage_stats[idx].pass++; }
+      else {coverage_stats[idx].fail++;}
    }
 }
 void scoreboard_c::write_stats()
 {
-   unsigned totalPass;
-   unsigned totalFail;
+   unsigned totalPass = 0;
+   unsigned totalFail = 0;
 
    logFile << "SUMMARY ------ BEGIN ------" << endl;
-   for( int i = 0 ; i << coverage_stats.size() ; i++ )
+   for( int i = 0 ; i < 100 ; i++ )
    {
       
-      logFile << "COVERAGE POINT:\t" << statusDes[i] ;
-      logFile << "PASS:\t" << coverage_stats[i].pass ;
-      logFile << "FAIL:\t" << coverage_stats[i].fail ;
+      logFile << "COVERAGE POINT:\t" << coverageDes[i] ;
+      logFile << " PASS:\t" << coverage_stats[i].pass ;
+      logFile << " FAIL:\t" << coverage_stats[i].fail ;
       logFile << endl;
       totalPass += coverage_stats[i].pass;
       totalFail += coverage_stats[i].fail;
    }
    logFile << endl;
    logFile << "TOTAL PASS:\t" << totalPass ;
-   logFile << "TOTAL FAIL:\t" << totalFail ;
+   logFile << " TOTAL FAIL:\t" << totalFail ;
    logFile << endl;
    logFile << "SUMMARY ------  END  ------" << endl;
 }
@@ -101,4 +91,5 @@ void scoreboard_c::write_report()
    write_log();
    write_stats();
 }
+
 
